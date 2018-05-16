@@ -15,9 +15,13 @@ def collatz(n):
             m = m * 3 + 1
     return pathway
 
-def steps(n):
-    steps = len(collatz(n))
-    return steps
+def path_lengths(n):
+    '''Return the length of each path from 2 to n.'''
+    path_lengths = {}
+    for i in range(2, n + 1):
+        path_length = len(collatz(i))
+        path_lengths[i] = path_length
+    return path_lengths
 
 def step_in_path_count(n):
     '''Count how many paths each step was a part of. Counts all all_paths
@@ -37,9 +41,10 @@ def step_in_path_count(n):
     return step_touch_count
 
 step_touches = step_in_path_count(10)
+path_lengths = path_lengths(100)
 
-s = pd.Series(step_touches, name = 'Step Touches')
-s.index.name = 'Step'
+s = pd.Series(path_lengths, name = 'Path Lengths')
+s.index.name = 'Start'
 s.reset_index()
-s.plot(xlim = (0,100))
+s.plot()
 plt.show()
